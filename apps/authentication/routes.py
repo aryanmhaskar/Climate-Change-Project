@@ -113,9 +113,14 @@ def logout():
 def tables():
     emission_form = EmissionsForm(request.form)
     # read form data
-    print(emission_form)
     if request.method == 'POST':
-        print("Posted!")
+        home = request.form['house']
+        car = request.form['car']
+        flight = request.form['flight']
+        other = request.form['other']
+        secondary = request.form['secondary']
+        emissions = [home, car, flight, other, secondary]
+        print(emissions)
         return redirect(url_for('home_blueprint.index'))
     return render_template('home/tables.html')
 
