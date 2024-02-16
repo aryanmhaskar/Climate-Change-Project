@@ -21,6 +21,26 @@
               <h2 class="card-title"> Log your Emissions </h2>
             </div>
             <form method="post" enctype="multipart/form-data">
+              <label>Username</label>
+              <input name="user" id="user" value="{{request.form['user']}}" type="string" class="form-control" placeholder="Username">
+
+              <label>Date</label>
+              <select name="month" id="month" value="{{request.form['month']}}" placeholder="MM">
+                <option name="" value="" style="display:none;">MM</option>
+                <option name="January" value="Jan">January</option>
+                <option name="February" value="Feb">February</option>
+                <option name="March" value="Mar">March</option>
+                <option name="April" value="Apr">April</option>
+                <option name="May" value="May">May</option>
+                <option name="June" value="Jun">June</option>
+                <option name="July" value="Jul">July</option>
+                <option name="August" value="Aug">August</option>
+                <option name="September" value="Sep">September</option>
+                <option name="October" value="Oct">October</option>
+                <option name="November" value="Nov">November</option>
+                <option name="December" value="Dec">December</option>
+              </select>
+
               <label>House Emissions (metric tons) </label>
               <input name="house" id="house" value="{{request.form['house']}}" type="number" class="form-control" placeholder="0">
  

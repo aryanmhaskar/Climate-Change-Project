@@ -15,7 +15,7 @@ from flask_dance.contrib.github import github
 from apps import db, login_manager
 from apps.authentication import blueprint
 from apps.authentication.forms import LoginForm, CreateAccountForm, EmissionsForm
-from apps.authentication.models import Users
+from apps.authentication.models import Users, Emissions
 
 from apps.authentication.util import verify_pass
 
@@ -111,15 +111,17 @@ def logout():
 
 @blueprint.route('/tables.html', methods=['GET', 'POST'])
 def tables():
-    emission_form = EmissionsForm(request.form)
     # read form data
     if request.method == 'POST':
-        home = request.form['house']
-        car = request.form['car']
-        flight = request.form['flight']
-        other = request.form['other']
-        secondary = request.form['secondary']
-        emissions = [home, car, flight, other, secondary]
+        month = request.form['month']
+        home = float(request.form['house'])
+        car = float(request.form['car'])
+        flight = float(request.form['flight'])
+        other = float(request.form['other'])
+        secondary = float(request.form['secondary'])
+        total = home + car + flight + other + secondary
+        user = request.form['user']
+        emissions = Emissions(user, month, home, car, flight, other, secondary, total)
         print(emissions)
         return redirect(url_for('home_blueprint.index'))
     return render_template('home/tables.html')
