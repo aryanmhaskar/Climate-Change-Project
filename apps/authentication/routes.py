@@ -14,25 +14,25 @@ from flask_dance.contrib.github import github
 
 from apps import db, login_manager
 from apps.authentication import blueprint
-from apps.authentication.forms import LoginForm, CreateAccountForm
+from apps.authentication.forms import LoginForm, CreateAccountForm, EmissionsForm
 from apps.authentication.models import Users
 
 from apps.authentication.util import verify_pass
 
 
-@blueprint.route('/')
+@blueprint.route('/', methods=['POST', 'GET'])
 def route_default():
     return redirect(url_for('authentication_blueprint.login'))
 
 # Login & Registration
 
-@blueprint.route("/github")
+@blueprint.route("/github", methods=['POST', 'GET'])
 def login_github():
     """ Github login """
     if not github.authorized:
         return redirect(url_for("github.login"))
 
-    res = github.get("/user")
+    res = github.get("/user", methods=['POST', 'GET'])
     return redirect(url_for('home_blueprint.index'))
     
 @blueprint.route('/login', methods=['GET', 'POST'])
@@ -104,11 +104,20 @@ def register():
     else:
         return render_template('accounts/register.html', form=create_account_form)
 
-
-@blueprint.route('/logout')
+@blueprint.route('/logout', methods=['GET', 'POST'])
 def logout():
     logout_user()
     return redirect(url_for('authentication_blueprint.login'))
+
+@blueprint.route('/tables.html', methods=['GET', 'POST'])
+def tables():
+    emission_form = EmissionsForm(request.form)
+    # read form data
+    print(emission_form)
+    if request.method == 'POST':
+        print("Posted!")
+        return redirect(url_for('home_blueprint.index'))
+    return render_template('home/tables.html')
 
 # Errors
 
@@ -116,16 +125,13 @@ def logout():
 def unauthorized_handler():
     return render_template('home/page-403.html'), 403
 
-
 @blueprint.errorhandler(403)
 def access_forbidden(error):
     return render_template('home/page-403.html'), 403
 
-
 @blueprint.errorhandler(404)
 def not_found_error(error):
     return render_template('home/page-404.html'), 404
-
 
 @blueprint.errorhandler(500)
 def internal_error(error):
