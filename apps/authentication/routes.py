@@ -113,16 +113,34 @@ def logout():
 def tables():
     # read form data
     if request.method == 'POST':
-        month = request.form['month']
-        home = float(request.form['house'])
-        car = float(request.form['car'])
-        flight = float(request.form['flight'])
-        other = float(request.form['other'])
-        secondary = float(request.form['secondary'])
-        total = home + car + flight + other + secondary
         user = request.form['user']
-        emissions = Emissions(user, month, home, car, flight, other, secondary, total)
+        user = str(user[0])
+
+        month = request.form['month']
+        month = str(month[0])
+
+        home = request.form['house']
+        home = float(home[0])
+
+        car = request.form['car']
+        car = float(car[0])
+
+        flight = request.form['flight']
+        flight = float(flight[0])
+
+        other = request.form['other']
+        other = float(other[0])
+
+        secondary = request.form['secondary']
+        secondary = float(secondary[0])
+
+        total = home + car + flight + other + secondary
+        total = float(total)
+
+        emissions = Emissions(23423)
         print(emissions)
+        db.session.add(emissions)
+        db.session.commit()
         return redirect(url_for('home_blueprint.index'))
     return render_template('home/tables.html')
 

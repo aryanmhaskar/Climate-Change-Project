@@ -15,24 +15,28 @@ from apps.authentication.util import hash_pass
 class Emissions(db.Model):
     __tablename__ = 'Emissions'
 
-    user = db.Column(db.Integer, primary_key=True)
-    month = db.Column(db.String(64))
-    house_emission = db.Column(db.Float)
-    car_emission = db.Column(db.Float)
-    flight_emission = db.Column(db.Float)
-    other_emission = db.Column(db.Float)
-    secondary_emission = db.Column(db.Float)
-    total_emission = db.Column(db.Float)
+    # user = db.Column(db.String, primary_key=True)
+    # month = db.Column(db.String)
+    # house_emission = db.Column(db.Float)
+    # car_emission = db.Column(db.Float)
+    # flight_emission = db.Column(db.Float)
+    # other_emission = db.Column(db.Float)
+    # secondary_emission = db.Column(db.Float)
+    # total_emission = db.Column(db.Float)
+    
+    # def __init__(self, user, month, house_emission, car_emission, flight_emission, other_emission, secondary_emission, total_emission):
+    #     self.user = user
+    #     self.month = month
+    #     self.house_emission = house_emission
+    #     self.car_emission = car_emission
+    #     self.flight_emission = flight_emission
+    #     self.other_emission = other_emission
+    #     self.secondary_emission = secondary_emission
+    #     self.total_emission = total_emission
 
-    def __init__(self, user, month, house_emission, car_emission, flight_emission, other_emission, secondary_emission, total_emission):
+    user = db.Column(db.String, primary_key=True)
+    def __init__(self, user):
         self.user = user
-        self.month = month
-        self.house_emission = house_emission
-        self.car_emission = car_emission
-        self.flight_emission = flight_emission
-        self.other_emission = other_emission
-        self.secondary_emission = secondary_emission
-        self.total_emission = total_emission
     
     def __repr__(self):
         return str(self.user)
